@@ -61,7 +61,7 @@ public class PlayScene : Node2D {
 			player.Jump(delta);
 		}
 		else if( !IsJumping(player) ) {
-			player.Fall(delta);
+			_input.Reset(ButtonKind.Jump);
 		}
 	}
 
@@ -69,15 +69,15 @@ public class PlayScene : Node2D {
 		return !player.IsGrounded
 			&& (
 				!_input.Get(ButtonKind.Jump)
-				//|| player.TimeInState >= player.JumpDuration
-				|| Mathf.IsZeroApprox(player.LinearVelocity.y)
+				|| player.TimeInState > player.JumpDuration
+				|| player.LinearVelocity.y > 0
 			);
 	}
 
 	private bool IsJumping(Player player) {
 		return !player.IsGrounded
-			&& (_input.Get(ButtonKind.Jump) && player.State != PlayerState.Freefall)
-			&& player.TimeInState < player.JumpDuration && player.LinearVelocity.y <= 0;
+			&& _input.Get(ButtonKind.Jump)
+			&& player.TimeInState <= player.JumpDuration && player.LinearVelocity.y < 0;
 	}
 	private bool IsMoving(Player player) {
 		return player.IsGrounded && !Mathf.IsZeroApprox(player.LinearVelocity.x);
@@ -88,7 +88,7 @@ public class PlayScene : Node2D {
 	}
 
 	private bool IsStartingJump(Player player) {
-		return _input.Get(ButtonKind.Jump) && player.IsGrounded;
+		return _input.Get(ButtonKind.Jump) && player.IsGrounded && player.JumpCount == 0;
 	}
 
 	private void ProcessPlayerState(Player player, float delta) {
