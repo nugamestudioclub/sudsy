@@ -3,9 +3,9 @@
 [ext_resource path="res://src/PlayScene.cs" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
 [ext_resource path="res://src/Player.cs" type="Script" id=3]
-[ext_resource path="res://assets/sprites/test-player.png" type="Texture" id=4]
 [ext_resource path="res://src/Door.cs" type="Script" id=5]
 [ext_resource path="res://assets/materials/player.phymat" type="PhysicsMaterial" id=6]
+[ext_resource path="res://assets/sprites/Player/player-frames.res" type="SpriteFrames" id=7]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 800, 4 )
@@ -135,9 +135,10 @@ _gravityModifierJumping = 0.5
 _maxSpeedModifierSliding = 1.5
 _frictionModifierSliding = 0.0
 
-[node name="Sprite" type="Sprite" parent="Player"]
-position = Vector2( 0, -7 )
-texture = ExtResource( 4 )
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Player"]
+frames = ExtResource( 7 )
+animation = "idle"
+playing = true
 
 [node name="TallHitbox" type="CollisionShape2D" parent="Player"]
 position = Vector2( 0, -1 )
@@ -163,3 +164,5 @@ position = Vector2( 0, 6 )
 shape = SubResource( 7 )
 target_position = Vector2( 0, 0 )
 max_results = 1
+
+[connection signal="animation_finished" from="Player/AnimatedSprite" to="Player" method="AnimatedSprite_AnimationFinished"]
