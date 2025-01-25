@@ -29,6 +29,12 @@ public class Player : RigidBody2D {
 	[Export]
 	private float _frictionModifierSliding = 1.0f;
 
+	[Export]
+	public int Soap { get; set; } = 100;
+
+	[Export]
+	public int MidairJumpSoapCost { get; private set; } = 20;
+
 	private CollisionShape2D _tallHitbox;
 
 	private CollisionShape2D _shortHitbox;
@@ -72,6 +78,7 @@ public class Player : RigidBody2D {
 	}
 
 	public override void _PhysicsProcess(float delta) {
+		GD.Print($"Gravity {GravityScale}");
 		_feet.ForceShapecastUpdate();
 		_areFeetColliding = _feet.IsColliding();
 		if( _areFeetColliding )
@@ -102,6 +109,14 @@ public class Player : RigidBody2D {
 		var impulse = _jumpScale * Vector2.Up;
 		ApplyImpulse(Vector2.Zero, impulse);
 		IsSliding = false;
+	}
+
+	public void MidAirJump(float delta)
+	{
+		Soap -= MidairJumpSoapCost;
+		EnterState(PlayerState.Jumping);
+        LinearVelocity = new Vector2(LinearVelocity.x, 0);
+        Jump(delta);
 	}
 
 	public void MoveX(float value, float delta) {
