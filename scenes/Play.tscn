@@ -8,9 +8,8 @@
 [sub_resource type="PhysicsMaterial" id=3]
 friction = 0.0
 
-[sub_resource type="CapsuleShape2D" id=6]
-radius = 9.0
-height = 6.0
+[sub_resource type="RectangleShape2D" id=11]
+extents = Vector2( 11.5, 7.5 )
 
 [sub_resource type="RectangleShape2D" id=5]
 extents = Vector2( 14, 3 )
@@ -39,7 +38,7 @@ continuous_cd = 2
 contact_monitor = true
 script = ExtResource( 3 )
 JumpDuration = 0.5
-_moveScale = 500.0
+_moveScale = 625.0
 _jumpScale = 200.0
 _gravityScale = 30.0
 _maxSpeed = 750.0
@@ -54,9 +53,8 @@ _frictionModifierSliding = 0.0
 texture = ExtResource( 4 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
-position = Vector2( 0, 6 )
-rotation = 1.5708
-shape = SubResource( 6 )
+position = Vector2( -0.5, 7.5 )
+shape = SubResource( 11 )
 
 [node name="Brush" type="Area2D" parent="Player"]
 collision_layer = 4

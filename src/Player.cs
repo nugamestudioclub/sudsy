@@ -70,7 +70,7 @@ public class Player : RigidBody2D {
 	}
 
 	public void EnterState(PlayerState value) {
-		GD.Print($"EnterState {value}");
+		//GD.Print($"EnterState {value}");
 		State = value;
 		TimeInState = 0f;
 		GravityScale = _gravityScale * (value == PlayerState.Jumping ? _gravityModifierJumping : 1f);
@@ -81,7 +81,6 @@ public class Player : RigidBody2D {
 	}
 
 	public void Jump(float delta) {
-		GD.Print("Jump");
 		++JumpCount;
 		var impulse = _jumpScale * Vector2.Up;
 		ApplyImpulse(Vector2.Zero, impulse);
