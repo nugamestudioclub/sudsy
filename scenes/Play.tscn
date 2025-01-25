@@ -99,7 +99,7 @@ texture = ExtResource( 2 )
 shape = SubResource( 8 )
 
 [node name="Block" type="StaticBody2D" parent="."]
-position = Vector2( 64, 120 )
+position = Vector2( 64, 119 )
 
 [node name="Sprite" type="Sprite" parent="Block"]
 position = Vector2( 0, 1 )
@@ -110,7 +110,7 @@ position = Vector2( 0, 1 )
 shape = SubResource( 10 )
 
 [node name="Block2" type="StaticBody2D" parent="."]
-position = Vector2( -288, 104 )
+position = Vector2( -288, 103 )
 
 [node name="Sprite" type="Sprite" parent="Block2"]
 position = Vector2( 0, 1 )
