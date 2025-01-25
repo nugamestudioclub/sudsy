@@ -6,7 +6,7 @@
 [ext_resource path="res://assets/sprites/test-player.png" type="Texture" id=4]
 
 [sub_resource type="PhysicsMaterial" id=3]
-friction = 0.25
+friction = 0.0
 
 [sub_resource type="CapsuleShape2D" id=6]
 radius = 9.0
@@ -36,9 +36,13 @@ JumpDuration = 0.5
 _moveScale = 500.0
 _jumpScale = 200.0
 _gravityScale = 10.0
-_moveMultiplierMidair = 0.5
-_gravityModifierJumping = 0.33
 _maxSpeed = 750.0
+_frictionScale = 0.25
+_moveMultiplierMidair = 0.5
+_moveMultiplierSliding = 2.5
+_gravityModifierJumping = 0.33
+_maxSpeedModifierSliding = 1.5
+_frictionModifierSliding = 0.0
 
 [node name="Sprite" type="Sprite" parent="Player"]
 texture = ExtResource( 4 )

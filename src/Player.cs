@@ -12,19 +12,40 @@ public class Player : RigidBody2D {
 	private float _gravityScale = 1.0f;
 
 	[Export]
+	private float _maxSpeed = 100;
+
+	[Export]
+	private float _frictionScale;
+
+	[Export]
 	private float _moveMultiplierMidair = 1.0f;
+
+	[Export]
+	private float _moveMultiplierSliding = 1.0f;
 
 	[Export]
 	private float _gravityModifierJumping = 1.0f;
 
 	[Export]
-	private float _maxSpeed = 100;
+	private float _maxSpeedModifierSliding = 1.0f;
+
+	[Export]
+	private float _frictionModifierSliding = 1.0f;
 
 	private ShapeCast2D _feet;
 
 	private bool _areFeetColliding;
 
+	private bool _isSliding;
+
 	public bool IsGrounded => _areFeetColliding;
+	public bool IsSliding {
+		get => _isSliding;
+		set {
+			_isSliding = value;
+			Friction = _frictionScale * (value ? _frictionModifierSliding : 1f);
+		}
+	}
 
 	public int JumpCount { get; private set; }
 
@@ -38,6 +59,7 @@ public class Player : RigidBody2D {
 	public override void _Ready() {
 		_feet = GetNode<ShapeCast2D>("Feet");
 		EnterState(PlayerState.Idle);
+		IsSliding = false;
 	}
 
 	public override void _PhysicsProcess(float delta) {
@@ -64,9 +86,10 @@ public class Player : RigidBody2D {
 	}
 
 	public void MoveX(float value, float delta) {
-		if( Mathf.Abs(LinearVelocity.x) > _maxSpeed )
+		float speedLimit = _maxSpeed * (IsGrounded && IsSliding ? _maxSpeedModifierSliding : 1f);
+		if( Mathf.Abs(LinearVelocity.x) > speedLimit )
 			return;
-		float moveRate = _moveScale * (IsGrounded ? 1f : _moveMultiplierMidair);
+		float moveRate = _moveScale * (IsGrounded ? (IsSliding ? _moveMultiplierSliding : 1f) :_moveMultiplierMidair);
 		var impulse = value * moveRate * delta * Vector2.Right;
 		ApplyImpulse(Vector2.Zero, impulse);
 	}
