@@ -68,9 +68,9 @@ public class PlayScene : Node2D {
 			player.Jump(delta);
 			//holding jump
 		}
-		else if ( IsStartingMidairJump(player)) {
-            player.MidAirJump(delta);
-        }
+		else if( IsStartingMidairJump(player) ) {
+			player.MidAirJump(delta);
+		}
 		else if( !IsJumping(player) ) {
 			_input.Reset(ButtonKind.Jump);
 		}
@@ -99,11 +99,11 @@ public class PlayScene : Node2D {
 	}
 
 	private bool IsStartingJump(Player player) {
-		return _input.Get(ButtonKind.Jump) && player.IsGrounded && player.JumpCount == 0;
+		return Input.IsActionJustPressed("jump") && player.IsGrounded && player.JumpCount == 0;
 	}
 
-	private bool IsStartingMidairJump(Player player) 
-		=> Input.IsActionJustPressed("jump") && !player.IsGrounded 
+	private bool IsStartingMidairJump(Player player)
+		=> Input.IsActionJustPressed("jump") && !player.IsGrounded
 		&& player.JumpCount < 2 && player.Soap >= player.MidairJumpSoapCost;
 
 	private void ProcessPlayerState(Player player, float delta) {
