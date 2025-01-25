@@ -40,13 +40,13 @@ contact_monitor = true
 script = ExtResource( 3 )
 JumpDuration = 0.5
 _moveScale = 500.0
-_jumpScale = 180.0
+_jumpScale = 200.0
 _gravityScale = 30.0
 _maxSpeed = 750.0
 _frictionScale = 0.1
 _moveMultiplierMidair = 0.5
 _moveMultiplierSliding = 2.5
-_gravityModifierJumping = 0.3
+_gravityModifierJumping = 0.35
 _maxSpeedModifierSliding = 1.5
 _frictionModifierSliding = 0.0
 

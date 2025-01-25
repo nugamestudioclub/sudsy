@@ -93,6 +93,7 @@ public class PlayScene : Node2D {
 
 	private void ProcessPlayerState(Player player, float delta) {
 		player.IsSliding = _input.Get(ButtonKind.Slide);
+		var previousState = player.State;
 		if( IsMoving(player) && player.State != PlayerState.Moving ) {
 			player.EnterState(PlayerState.Moving);
 		}
@@ -101,11 +102,16 @@ public class PlayScene : Node2D {
 		}
 		else if( IsFalling(player) && player.State != PlayerState.Freefall ) {
 			player.EnterState(PlayerState.Freefall);
-			_input.Reset(ButtonKind.Jump);
 		}
 		else if( IsJumping(player) && player.State != PlayerState.Jumping ) {
 			player.EnterState(PlayerState.Jumping);
 		}
-		player.UpdateState(delta);
+		if( player.State == previousState ) {
+			player.UpdateState(delta);
+		}
+		else {
+			if( previousState == PlayerState.Jumping )
+				_input.Reset(ButtonKind.Jump);
+		}
 	}
 }
