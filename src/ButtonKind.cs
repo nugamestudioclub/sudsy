@@ -10,4 +10,5 @@
 	Cancel,
 	Jump = Primary,
 	Slide = Secondary,
+	Interact = Down,
 }

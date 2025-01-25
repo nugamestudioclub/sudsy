@@ -1,6 +1,4 @@
 using Godot;
-using System;
-using System.Numerics;
 
 public class PlayScene : Node2D {
 	private readonly InputFrame _input = new InputFrame();
@@ -14,6 +12,9 @@ public class PlayScene : Node2D {
 	public override void _PhysicsProcess(float delta) {
 		ProcessPlayerState(Player, delta);
 		MovePlayer(Player, delta);
+		foreach( var node in GetTree().GetNodesInGroup("Door") )
+			if( node is Door door )
+				ProcessDoorInteraction(Player, door, delta);
 	}
 
 	public override void _Process(float delta) {
@@ -50,6 +51,11 @@ public class PlayScene : Node2D {
 			_input.Set(ButtonKind.Slide);
 		else if( !Input.IsActionPressed("slide") )
 			_input.Reset(ButtonKind.Slide);
+
+		if( Input.IsActionJustPressed("interact") )
+			_input.Set(ButtonKind.Interact);
+		else if( !Input.IsActionPressed("interact") )
+			_input.Reset(ButtonKind.Interact);
 	}
 
 	private void MovePlayer(Player player, float delta) {
@@ -112,6 +118,21 @@ public class PlayScene : Node2D {
 		else {
 			if( previousState == PlayerState.Jumping )
 				_input.Reset(ButtonKind.Jump);
+		}
+	}
+
+	private void ProcessDoorInteraction(Player player, Door door, float delta) {
+		if( _input.Get(ButtonKind.Interact) && door.OverlapsBody(player) ) {
+			_input.Reset(ButtonKind.Interact);
+			var destination = door.Destination;
+			if( destination != null ) {
+				var destinationDoor = door.GetNode<Door>(destination);
+				if( destinationDoor != null )
+					player.Position = new Vector2(
+						destinationDoor.Position.x,
+						destinationDoor.Position.y + (player.Position.y - door.Position.y)
+					);
+			}
 		}
 	}
 }
