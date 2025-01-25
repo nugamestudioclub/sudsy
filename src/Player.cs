@@ -35,6 +35,8 @@ public class Player : RigidBody2D {
 
 	private ShapeCast2D _feet;
 
+	private AnimatedSprite _sprite;
+
 	private bool _areFeetColliding;
 
 	private bool _isSliding;
@@ -58,10 +60,13 @@ public class Player : RigidBody2D {
 
 	public PlayerState State { get; private set; }
 
+	private bool _isAnimationFinished;
+
 	public override void _Ready() {
 		_tallHitbox = GetNode<CollisionShape2D>("TallHitbox");
 		_shortHitbox = GetNode<CollisionShape2D>("ShortHitbox");
 		_feet = GetNode<ShapeCast2D>("Feet");
+		_sprite = GetNode<AnimatedSprite>("AnimatedSprite");
 		EnterState(PlayerState.Idle);
 		IsSliding = false;
 	}
@@ -73,6 +78,10 @@ public class Player : RigidBody2D {
 			JumpCount = 0;
 	}
 
+	public override void _Process(float delta) {
+		PlayAnimation(GetDesiredAnimation());
+	}
+
 	public void EnterState(PlayerState value) {
 		//GD.Print($"EnterState {value}");
 		State = value;
@@ -82,6 +91,10 @@ public class Player : RigidBody2D {
 
 	public void UpdateState(float delta) {
 		TimeInState += delta;
+	}
+
+	public void Face(float value) {
+		_sprite.FlipH = value < 0;
 	}
 
 	public void Jump(float delta) {
@@ -100,5 +113,56 @@ public class Player : RigidBody2D {
 		float moveRate = _moveScale * (IsGrounded ? 1f :_moveMultiplierMidair);
 		var impulse = value * moveRate * delta * Vector2.Right;
 		ApplyImpulse(Vector2.Zero, impulse);
+	}
+
+	public void PlayAnimation(string animation) {
+		string currentAnimation = _sprite.Animation;
+		string nextAnimation = HasTransition(currentAnimation, animation)
+			? currentAnimation + "-" + animation
+			: animation;
+		if( nextAnimation == currentAnimation )
+			return;
+		if( (!_isAnimationFinished && ArePartOfTransition(currentAnimation, nextAnimation)) )
+			return;
+		_sprite.Play(nextAnimation);
+		_isAnimationFinished = false;
+	}
+
+	private static bool HasTransition(string animation1, string animation2) {
+		switch( animation1 ) {
+		case "idle": return animation2 == "jump" || animation2 == "slide";
+		case "jump": return animation2 == "idle";
+		case "slide": return animation2 == "idle";
+		default: return false;
+		}
+	}
+
+	private static bool ArePartOfTransition(string animation1, string animation2) {
+		switch( animation1 ) {
+		case "idle": return animation2 == "idle-jump" || animation2 == "idle-slide";
+		case "idle-jump": return animation2 == "jump";
+		case "idle-slide": return animation2 == "slide";
+		case "jump": return animation2 == "jump-idle";
+		case "jump-idle": return animation2 == "idle";
+		case "slide-idle": return animation2 == "idle";
+		case "slide": return animation2 == "slide-idle";
+		default: return false;
+		}
+	}
+
+	private string GetDesiredAnimation() {
+		switch( State ) {
+		case PlayerState.Idle:
+		case PlayerState.Moving:
+			return IsSliding ? "slide" : "idle";
+		case PlayerState.Freefall:
+		case PlayerState.Jumping:
+			return "jump";
+		default: return "idle";
+		}
+	}
+
+	private void AnimatedSprite_AnimationFinished() {
+		_isAnimationFinished = true;
 	}
 }

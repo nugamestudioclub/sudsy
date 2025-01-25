@@ -62,6 +62,7 @@ public class PlayScene : Node2D {
 		float inputX = _input.X;
 		if( !Mathf.IsZeroApprox(inputX) ) {
 			player.MoveX(inputX, delta);
+			player.Face(inputX);
 		}
 		if( IsStartingJump(player) ) {
 			player.Jump(delta);
