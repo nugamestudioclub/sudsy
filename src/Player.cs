@@ -46,6 +46,9 @@ public class Player : RigidBody2D {
 	private bool _areFeetColliding;
 
 	private bool _isSliding;
+
+	private bool _isJumpingInMidAir;
+
 	public bool IsGrounded => _areFeetColliding;
 	public bool IsSliding {
 		get => _isSliding;
@@ -84,10 +87,6 @@ public class Player : RigidBody2D {
 			JumpCount = 0;
 	}
 
-	public override void _Process(float delta) {
-		PlayAnimation(GetDesiredAnimation());
-	}
-
 	public void EnterState(PlayerState value) {
 		State = value;
 		TimeInState = 0f;
@@ -96,10 +95,24 @@ public class Player : RigidBody2D {
 
 	public void UpdateState(float delta) {
 		TimeInState += delta;
+		_isJumpingInMidAir = false;		
 	}
 
 	public void Face(float value) {
 		_sprite.FlipH = value < 0;
+	}
+
+	public string GetDesiredAnimation() {
+		switch( State ) {
+		case PlayerState.Idle:
+		case PlayerState.Moving:
+			return IsSliding ? "slide" : "idle";
+		case PlayerState.Freefall:
+		case PlayerState.Jumping:
+			return _isJumpingInMidAir ? "idle-jump" : "jump";
+		default:
+			return "idle";
+		}
 	}
 
 	public void Jump(float delta) {
@@ -110,7 +123,7 @@ public class Player : RigidBody2D {
 	}
 
 	public void MidAirJump(float delta) {
-		Soap -= MidairJumpSoapCost;
+		_isJumpingInMidAir = true;
 		EnterState(PlayerState.Jumping);
 		LinearVelocity = new Vector2(LinearVelocity.x, 0);
 		Jump(delta);
@@ -159,18 +172,6 @@ public class Player : RigidBody2D {
 		case "slide-idle": return animation2 == "idle";
 		case "slide": return animation2 == "slide-idle";
 		default: return false;
-		}
-	}
-
-	private string GetDesiredAnimation() {
-		switch( State ) {
-		case PlayerState.Idle:
-		case PlayerState.Moving:
-			return IsSliding ? "slide" : "idle";
-		case PlayerState.Freefall:
-		case PlayerState.Jumping:
-			return "jump";
-		default: return "idle";
 		}
 	}
 

@@ -1,4 +1,5 @@
 using Godot;
+using System;
 
 public class PlayScene : Node2D {
 	private readonly InputFrame _input = new InputFrame();
@@ -11,6 +12,7 @@ public class PlayScene : Node2D {
 
 	public override void _PhysicsProcess(float delta) {
 		ProcessPlayerState(Player, delta);
+		ProcessPlayerAnimation(Player, delta);
 		MovePlayer(Player, delta);
 		foreach( var node in GetTree().GetNodesInGroup("Door") )
 			if( node is Door door )
@@ -66,10 +68,10 @@ public class PlayScene : Node2D {
 		}
 		if( IsStartingJump(player) ) {
 			player.Jump(delta);
-			//holding jump
 		}
 		else if( IsStartingMidairJump(player) ) {
 			player.MidAirJump(delta);
+			player.Soap = Math.Max(player.Soap - player.MidairJumpSoapCost, 0);
 		}
 		else if( !IsJumping(player) ) {
 			_input.Reset(ButtonKind.Jump);
@@ -102,9 +104,16 @@ public class PlayScene : Node2D {
 		return Input.IsActionJustPressed("jump") && player.IsGrounded && player.JumpCount == 0;
 	}
 
-	private bool IsStartingMidairJump(Player player)
-		=> Input.IsActionJustPressed("jump") && !player.IsGrounded
-		&& player.JumpCount < 2 && player.Soap >= player.MidairJumpSoapCost;
+	private bool IsStartingMidairJump(Player player) {
+		return Input.IsActionJustPressed("jump")
+			&& !player.IsGrounded
+			&& player.JumpCount < 1
+			&& player.Soap >= player.MidairJumpSoapCost;
+	}
+
+	private void ProcessPlayerAnimation(Player player, float delta) {
+		player.PlayAnimation(player.GetDesiredAnimation());
+	}
 
 	private void ProcessPlayerState(Player player, float delta) {
 		player.IsSliding = _input.Get(ButtonKind.Slide);
