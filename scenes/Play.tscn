@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://src/PlayScene.cs" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
@@ -16,12 +16,15 @@ height = 6.0
 extents = Vector2( 14, 3 )
 
 [sub_resource type="RectangleShape2D" id=7]
-extents = Vector2( 4, 2 )
+extents = Vector2( 10, 2 )
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 747, 6 )
+extents = Vector2( 800, 4 )
 
 [sub_resource type="RectangleShape2D" id=8]
+extents = Vector2( 32, 32 )
+
+[sub_resource type="RectangleShape2D" id=10]
 extents = Vector2( 32, 32 )
 
 [node name="Play" type="Node2D"]
@@ -37,13 +40,13 @@ contact_monitor = true
 script = ExtResource( 3 )
 JumpDuration = 0.5
 _moveScale = 500.0
-_jumpScale = 200.0
+_jumpScale = 180.0
 _gravityScale = 30.0
 _maxSpeed = 750.0
 _frictionScale = 0.1
 _moveMultiplierMidair = 0.5
 _moveMultiplierSliding = 2.5
-_gravityModifierJumping = 0.33
+_gravityModifierJumping = 0.3
 _maxSpeedModifierSliding = 1.5
 _frictionModifierSliding = 0.0
 
@@ -75,11 +78,11 @@ scale = Vector2( 0.807598, 0.314777 )
 current = true
 
 [node name="Floor" type="StaticBody2D" parent="."]
-position = Vector2( 0, 157 )
+position = Vector2( 0, 156 )
 collision_mask = 0
 
 [node name="Sprite" type="Sprite" parent="Floor"]
-scale = Vector2( 100, 0.15 )
+scale = Vector2( 100, 0.125 )
 texture = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
@@ -96,3 +99,25 @@ texture = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Wall"]
 shape = SubResource( 8 )
+
+[node name="Block" type="StaticBody2D" parent="."]
+position = Vector2( 64, 120 )
+
+[node name="Sprite" type="Sprite" parent="Block"]
+position = Vector2( 0, 1 )
+texture = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Block"]
+position = Vector2( 0, 1 )
+shape = SubResource( 10 )
+
+[node name="Block2" type="StaticBody2D" parent="."]
+position = Vector2( -288, 112 )
+
+[node name="Sprite" type="Sprite" parent="Block2"]
+position = Vector2( 0, 1 )
+texture = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Block2"]
+position = Vector2( 0, 1 )
+shape = SubResource( 10 )
