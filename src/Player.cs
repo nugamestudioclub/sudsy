@@ -83,13 +83,15 @@ public class Player : RigidBody2D {
 		++JumpCount;
 		var impulse = _jumpScale * Vector2.Up;
 		ApplyImpulse(Vector2.Zero, impulse);
+		IsSliding = false;
 	}
 
 	public void MoveX(float value, float delta) {
 		float speedLimit = _maxSpeed * (IsGrounded && IsSliding ? _maxSpeedModifierSliding : 1f);
 		if( Mathf.Abs(LinearVelocity.x) > speedLimit )
 			return;
-		float moveRate = _moveScale * (IsGrounded ? (IsSliding ? _moveMultiplierSliding : 1f) :_moveMultiplierMidair);
+		if (IsSliding) return;
+		float moveRate = _moveScale * (IsGrounded ? 1f :_moveMultiplierMidair);
 		var impulse = value * moveRate * delta * Vector2.Right;
 		ApplyImpulse(Vector2.Zero, impulse);
 	}

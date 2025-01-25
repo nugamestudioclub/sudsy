@@ -88,7 +88,7 @@ public class PlayScene : Node2D {
 	}
 
 	private bool IsStartingJump(Player player) {
-		return _input.Get(ButtonKind.Jump) && player.IsGrounded && player.JumpCount == 0 && !player.IsSliding;
+		return _input.Get(ButtonKind.Jump) && player.IsGrounded && player.JumpCount == 0;
 	}
 
 	private void ProcessPlayerState(Player player, float delta) {
