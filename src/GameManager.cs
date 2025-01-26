@@ -32,7 +32,7 @@ public class GameManager : Node
         {
             if (_currentScene.Name == "MainMenu")
             {
-                GetTree().Quit();
+                ChangeScene("Quit");
             }
             else
             {
@@ -59,6 +59,9 @@ public class GameManager : Node
                 break;
             case "Play":
                 _currentScene = _play.Instance();
+                break;
+            case "Quit":
+                GetTree().Quit();
                 break;
             default:
                 _currentScene = _mainMenu.Instance();
