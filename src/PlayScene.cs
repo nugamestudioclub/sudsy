@@ -30,7 +30,9 @@ public class PlayScene : Node2D {
 		ProcessPlayerState(Player, delta);
 		ProcessPlayerAnimation(Player, delta);
 		MovePlayer(Player, delta);
-		foreach( var node in GetTree().GetNodesInGroup("Door") )
+		ProcessSoap(Player, delta);
+
+        foreach ( var node in GetTree().GetNodesInGroup("Door") )
 			if( node is Door door )
 				ProcessDoorInteraction(Player, door, delta);
 	}
@@ -63,7 +65,7 @@ public class PlayScene : Node2D {
 
     private bool IsSliding(Player player)
     {
-        return player.IsGrounded && player.IsSliding;
+        return player.IsSliding;
 
     }
 
@@ -138,25 +140,10 @@ public class PlayScene : Node2D {
 	
     private void MovePlayer(Player player, float delta) {
 		float inputX = _input.X;
-        _timeUntilMoveEmission = Math.Max(_timeUntilMoveEmission - delta, 0);
-        if (IsSliding(player))
-        {
-            if (_timeUntilMoveEmission <= 0)
-            {
-                Soap.Slide(player.Feet.GlobalPosition, player.LinearVelocity);
-                _timeUntilMoveEmission = _slideEmissionInterval;
-            }
-        }
-        else if ( !Mathf.IsZeroApprox(inputX) ) {
+ 
+        if ( !Mathf.IsZeroApprox(inputX) ) {
 			player.MoveX(inputX, delta);
 			player.Face(inputX);
-			if (player.IsGrounded && _timeUntilMoveEmission <= 0)
-			{
-				float xOffset = player.Feet.Shape is RectangleShape2D rect ? rect.Extents.x : 0;
-
-                Soap.Move(player.Feet.GlobalPosition, new Vector2(xOffset, 0), player.LinearVelocity);
-                _timeUntilMoveEmission = _moveEmissionInterval;
-            }
         }
 
 		if( IsStartingJump(player) ) {
@@ -172,6 +159,61 @@ public class PlayScene : Node2D {
 			_input.Reset(ButtonKind.Jump);
 		}
 	}
+
+    private void ShowMoveParticles(Player player)
+    {
+        float xOffset = player.Feet.Shape is RectangleShape2D rect ? rect.Extents.x : 0;
+        Soap.Move(player.Feet.GlobalPosition, new Vector2(xOffset, 0), player.LinearVelocity);  
+    }
+
+    private void ShowSlideParticles(Player player)
+    {
+        Soap.Slide(player.Feet.GlobalPosition, player.LinearVelocity);  
+    }
+
+	private void RegenerateSoap(Player player)
+	{
+        player.Soap = Math.Min(player.MaxSoap, player.Soap + player.SoapRegenRate);
+    }
+
+    private void ProcessSoap(Player player, float delta)
+	{
+		if (_timeUntilMoveEmission <= 0)
+		{
+            if(IsSliding(player))
+			{
+				if (player.Soap > 0)
+				{
+                    ShowSlideParticles(player);
+                    player.Soap = Math.Max(0, player.Soap - player.SlideSoapCost);
+                    _timeUntilMoveEmission = _slideEmissionInterval;
+                }
+				else
+				{
+                    ShowMoveParticles(player);
+                    _timeUntilMoveEmission = _moveEmissionInterval;
+                }
+			}
+			else
+			{
+                if (player.IsGrounded)
+                {
+                    ShowMoveParticles(player);
+                    _timeUntilMoveEmission = _moveEmissionInterval;
+
+                }
+            }
+
+        }
+		else {
+            _timeUntilMoveEmission = Math.Max(_timeUntilMoveEmission - delta, 0);
+        }
+		if (!IsSliding(player))
+		{
+			RegenerateSoap(player);
+		}
+        
+    }
 
 	private void ProcessPlayerAnimation(Player player, float delta) {
 		player.PlayAnimation(player.GetDesiredAnimation());

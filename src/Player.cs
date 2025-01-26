@@ -29,13 +29,22 @@ public class Player : RigidBody2D {
 	[Export]
 	private float _frictionModifierSliding = 1.0f;
 
-	[Export]
-	public int Soap { get; set; } = 100;
+    [Export]
+    public float Soap { get; set; } = 100;
 
-	[Export]
+    [Export]
+    public int MaxSoap { get; private set; } = 100;
+
+    [Export]
+    public float SoapRegenRate { get; set; } = .02f;
+
+    [Export]
 	public int MidairJumpSoapCost { get; private set; } = 20;
 
-	private CollisionShape2D _tallHitbox;
+    [Export]
+    public int SlideSoapCost { get; private set; } = 10;
+
+    private CollisionShape2D _tallHitbox;
 
 	private CollisionShape2D _shortHitbox;
 
