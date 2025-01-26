@@ -1,0 +1,10 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://scenes/Play.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/MainMenu.tscn" type="PackedScene" id=2]
+[ext_resource path="res://src/GameManager.cs" type="Script" id=3]
+
+[node name="GameManager" type="Node"]
+script = ExtResource( 3 )
+_mainMenu = ExtResource( 2 )
+_play = ExtResource( 1 )

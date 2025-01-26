@@ -31,9 +31,9 @@
 [ext_resource path="res://src/SFX.cs" type="Script" id=29]
 [ext_resource path="res://scenes/Ramp1x1.tscn" type="PackedScene" id=30]
 [ext_resource path="res://scenes/Ramp2x3.tscn" type="PackedScene" id=31]
-[ext_resource path="res://scenes/Block.tscn" type="PackedScene" id=32]
 [ext_resource path="res://scenes/Ramp2x1.tscn" type="PackedScene" id=33]
 [ext_resource path="res://scenes/SoapDispenser.tscn" type="PackedScene" id=34]
+[ext_resource path="res://scenes/Box1x1.tscn" type="PackedScene" id=36]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 800, 4 )
@@ -180,14 +180,6 @@ texture = ExtResource( 2 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Wall"]
 shape = SubResource( 8 )
 
-[node name="Block" parent="." instance=ExtResource( 32 )]
-
-[node name="Block2" parent="." instance=ExtResource( 32 )]
-position = Vector2( -32, 120 )
-
-[node name="Block3" parent="." instance=ExtResource( 32 )]
-position = Vector2( -224, 104 )
-
 [node name="Door1" type="Area2D" parent="." groups=["Door"]]
 position = Vector2( -448, 104 )
 scale = Vector2( 1, 1.5 )
@@ -322,5 +314,13 @@ position = Vector2( 1088, 56 )
 
 [node name="SoapDispenser" parent="." instance=ExtResource( 34 )]
 position = Vector2( 720, 120 )
+
+[node name="Box1x1" parent="." instance=ExtResource( 36 )]
+
+[node name="Box1x2" parent="." instance=ExtResource( 36 )]
+position = Vector2( -32, 120 )
+
+[node name="Box1x3" parent="." instance=ExtResource( 36 )]
+position = Vector2( -224, 104 )
 
 [connection signal="animation_finished" from="Player/AnimatedSprite" to="Player" method="AnimatedSprite_AnimationFinished"]
