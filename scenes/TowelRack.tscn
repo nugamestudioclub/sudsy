@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://assets/materials/obstacle.phymat" type="PhysicsMaterial" id=1]
+[ext_resource path="res://assets/sprites/Rooms/Bathroom/TowelRackTowel.png" type="Texture" id=2]
+
+[node name="TowelRack" type="StaticBody2D"]
+collision_mask = 0
+physics_material_override = ExtResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 2 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PoolVector2Array( -96, -21, -96, -78, -80, -78, -68, -66, -30, -66, -16, -71, 47, -66, 68, -66, 80, -78, 96, -78, 96, -21, 80, -21, 80, -55, 52, -55, 58, -8, 59, 52, 67, 71, 26, 78, -24, 74, -32, 65, -25, 24, -25, -55, -80, -55, -80, -21 )
