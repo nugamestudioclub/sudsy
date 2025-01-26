@@ -21,6 +21,9 @@ public class Player : RigidBody2D {
 	private float _moveMultiplierMidair = 1.0f;
 
 	[Export]
+	private float _gravityModifierGrounded = 1.0f;
+
+	[Export]
 	private float _gravityModifierJumping = 1.0f;
 
 	[Export]
@@ -29,22 +32,22 @@ public class Player : RigidBody2D {
 	[Export]
 	private float _frictionModifierSliding = 1.0f;
 
-    [Export]
-    public float Soap { get; set; } = 100;
+	[Export]
+	public float Soap { get; set; } = 100;
 
-    [Export]
-    public int MaxSoap { get; private set; } = 100;
+	[Export]
+	public int MaxSoap { get; private set; } = 100;
 
-    [Export]
-    public float SoapRegenRate { get; set; } = .02f;
+	[Export]
+	public float SoapRegenRate { get; set; } = .02f;
 
-    [Export]
+	[Export]
 	public int MidairJumpSoapCost { get; private set; } = 20;
 
-    [Export]
-    public int SlideSoapCost { get; private set; } = 10;
+	[Export]
+	public int SlideSoapCost { get; private set; } = 10;
 
-    private CollisionShape2D _tallHitbox;
+	private CollisionShape2D _tallHitbox;
 
 	private CollisionShape2D _shortHitbox;
 
@@ -52,7 +55,7 @@ public class Player : RigidBody2D {
 
 	public Area2D Brush { get; private set; }
 
-    private AnimatedSprite _sprite;
+	private AnimatedSprite _sprite;
 
 	private bool _areFeetColliding;
 
@@ -86,8 +89,8 @@ public class Player : RigidBody2D {
 		_tallHitbox = GetNode<CollisionShape2D>("TallHitbox");
 		_shortHitbox = GetNode<CollisionShape2D>("ShortHitbox");
 		Feet = GetNode<ShapeCast2D>("Feet");
-        Brush = GetNode<Area2D>("Brush");
-        _sprite = GetNode<AnimatedSprite>("AnimatedSprite");
+		Brush = GetNode<Area2D>("Brush");
+		_sprite = GetNode<AnimatedSprite>("AnimatedSprite");
 		EnterState(PlayerState.Idle);
 		IsSliding = false;
 	}
@@ -102,12 +105,16 @@ public class Player : RigidBody2D {
 	public void EnterState(PlayerState value) {
 		State = value;
 		TimeInState = 0f;
-		GravityScale = _gravityScale * (value == PlayerState.Jumping ? _gravityModifierJumping : 1f);
+		GravityScale = _gravityScale * (
+			value == PlayerState.Jumping ? _gravityModifierJumping :
+			IsGrounded ? _gravityModifierGrounded :
+			1f
+		);
 	}
 
 	public void UpdateState(float delta) {
 		TimeInState += delta;
-		IsJumpingInMidair = false;		
+		IsJumpingInMidair = false;
 	}
 
 	public void Face(float value) {
