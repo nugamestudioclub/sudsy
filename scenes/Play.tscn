@@ -58,6 +58,7 @@ extents = Vector2( 10, 2 )
 
 [node name="Play" type="Node2D"]
 script = ExtResource( 4 )
+TotalTime = 180.0
 _startingDoor = NodePath("Door1")
 
 [node name="Music" parent="." instance=ExtResource( 22 )]
@@ -137,6 +138,22 @@ margin_bottom = 80.0
 custom_colors/default_color = Color( 0.913725, 0.952941, 0.823529, 1 )
 custom_fonts/normal_font = ExtResource( 20 )
 text = "0%"
+
+[node name="Time" type="Control" parent="UI/HBoxContainer"]
+margin_left = 8.0
+margin_right = 8.0
+margin_bottom = 720.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="UI/HBoxContainer/Time"]
+margin_left = 952.0
+margin_top = 16.0
+margin_right = 1256.0
+margin_bottom = 80.0
+custom_colors/default_color = Color( 0.913725, 0.952941, 0.823529, 1 )
+custom_fonts/normal_font = ExtResource( 20 )
+bbcode_enabled = true
+bbcode_text = "[right]00:00[/right]"
+text = "00:00"
 
 [node name="Floor" type="StaticBody2D" parent="."]
 position = Vector2( 0, 156 )

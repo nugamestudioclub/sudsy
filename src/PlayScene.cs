@@ -58,6 +58,10 @@ public class PlayScene : Node2D {
 	[Export]
 	private NodePath _startingDoor;
 
+	[Export]
+	public float TotalTime { get; private set; }
+
+	public float TimeToLive { get; private set; }
 
 	public override void _Ready() {
 		Player = GetNode<Player>("Player");
@@ -79,6 +83,8 @@ public class PlayScene : Node2D {
 			if( node is Door door )
 				_doors.Add(door);
 		Enter(GetNode<Door>(_startingDoor));
+		TimeToLive = TotalTime;
+		UI.DrawTime(TimeToLive);
 
 	}
 
@@ -94,6 +100,8 @@ public class PlayScene : Node2D {
 
 		foreach( var door in _doors )
 			ProcessDoorInteraction(Player, door, delta);
+		TimeToLive = Mathf.Max(TimeToLive - delta, 0);
+		UI.DrawTime(TimeToLive);
 	}
 
 	public override void _Process(float delta) {
