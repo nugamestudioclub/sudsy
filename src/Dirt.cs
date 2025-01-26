@@ -13,11 +13,13 @@ public class Dirt : Area2D {
         set
         {
             _amount = value;
-            _sprite.Modulate = new Color(
-                _sprite.Modulate.r, 
-                _sprite.Modulate.g,
-                _sprite.Modulate.b,
-                _amount / _startingAmount);
+            //_sprite.Modulate = new Color(
+            //    _sprite.Modulate.r, 
+            //    _sprite.Modulate.g,
+            //    _sprite.Modulate.b,
+            //    _amount / _startingAmount);
+            //_sprite.Material = (Material)_sprite.Material.Duplicate();
+            ((ShaderMaterial)_sprite.Material).SetShaderParam("opacity", _amount / _startingAmount);
         }
     }
 
@@ -27,6 +29,7 @@ public class Dirt : Area2D {
     {
         _sprite = GetNode<Sprite>("Sprite");
         Amount = _startingAmount;
+        ((ShaderMaterial)_sprite.Material).SetShaderParam("global_transform", GlobalTransform);
     }
 
 
