@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=31 format=2]
 
 [ext_resource path="res://scenes/Soap8.tscn" type="PackedScene" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
@@ -21,6 +21,7 @@
 [ext_resource path="res://assets/sprites/ui/ui-sparkles.png" type="Texture" id=19]
 [ext_resource path="res://assets/fonts/pixel-square.tres" type="DynamicFont" id=20]
 [ext_resource path="res://src/UI.cs" type="Script" id=21]
+[ext_resource path="res://scenes/Music.tscn" type="PackedScene" id=22]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 800, 4 )
@@ -51,6 +52,8 @@ extents = Vector2( 10, 2 )
 [node name="Play" type="Node2D"]
 script = ExtResource( 4 )
 _startingDoor = NodePath("Door1")
+
+[node name="Music" parent="." instance=ExtResource( 22 )]
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 0, 128 )
