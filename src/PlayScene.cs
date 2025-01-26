@@ -16,9 +16,11 @@ public class PlayScene : Node2D {
     [Export]
     private float _slideEmissionInterval = 0.075f;
 
-    
-    public Camera2D Camera { get; private set; }
+	private Vector2 _uiOffset;
 
+	public Camera2D Camera { get; private set; }
+
+	public UI UI { get; private set; }
 
     [Export]
     private float _minCleanSpeed = 5f;
@@ -58,6 +60,8 @@ public class PlayScene : Node2D {
 		Player = GetNode<Player>("Player");
 		Soap = GetNode<Soap>("Soap");
 		Camera = GetNode<Camera2D>("Camera2D");
+		UI = GetNode<UI>("UI");
+		_uiOffset = UI.GlobalPosition - Camera.GlobalPosition;
         foreach (var node in GetTree().GetNodesInGroup("Dirt"))
             if (node is Dirt dirt)
 			{
@@ -65,6 +69,8 @@ public class PlayScene : Node2D {
                 _dirts.Add(dirt);
             }    
 		CurrentDirtAmount = TotalDirtAmount;
+		DrawSoapUI(Player);
+		DrawCleanUI();
         GD.Print($"Starting Dirt {TotalDirtAmount}");
         foreach (var node in GetTree().GetNodesInGroup("Door"))
             if (node is Door door)
@@ -93,6 +99,7 @@ public class PlayScene : Node2D {
 
 	private void Enter(Door door) {
 		Camera.GlobalPosition = door.CameraHook.GlobalPosition;
+		UI.GlobalPosition = Camera.GlobalPosition + _uiOffset;
 	}
 
 	private bool IsFalling(Player player) {
@@ -152,10 +159,16 @@ public class PlayScene : Node2D {
 
 	private void ProcessClean(Dirt dirt, float amount)
 	{
-		float start = dirt.Amount;
-        dirt.Amount = Math.Max(0, dirt.Amount - amount);
-        CurrentDirtAmount -= start - dirt.Amount;
-    }
+		float currentAmount = dirt.Amount;
+		float nextAmount = Math.Max(0, currentAmount - amount);
+		float delta = currentAmount - nextAmount;
+		if( delta > 0 ) {
+			CurrentDirtAmount -= delta;
+			dirt.Amount -= delta;
+			DrawCleanUI();
+
+		}
+	}
 
 	private void ProcessDirtInteraction(Player player, Dirt dirt, float delta)
 	{
@@ -225,6 +238,7 @@ public class PlayScene : Node2D {
 		else if( IsStartingMidairJump(player) ) {
 			player.MidairJump(delta);
 			player.Soap = Math.Max(player.Soap - player.MidairJumpSoapCost, 0);
+			DrawSoapUI(player);
 			Soap.MidairJump(player.Feet.GlobalPosition);
 		}
 		else if( !IsJumping(player) ) {
@@ -246,6 +260,7 @@ public class PlayScene : Node2D {
 	private void RegenerateSoap(Player player)
 	{
         player.Soap = Math.Min(player.MaxSoap, player.Soap + player.SoapRegenRate);
+		DrawSoapUI(player);
     }
 
     private void ProcessSoap(Player player, float delta)
@@ -258,7 +273,8 @@ public class PlayScene : Node2D {
 				{
                     ShowSlideParticles(player);
                     player.Soap = Math.Max(0, player.Soap - player.SlideSoapCost);
-                    _timeUntilMoveEmission = _slideEmissionInterval;
+					DrawSoapUI(player);
+					_timeUntilMoveEmission = _slideEmissionInterval;
                 }
 				else
 				{
@@ -315,4 +331,11 @@ public class PlayScene : Node2D {
 		}
 	}
 
+	private void DrawCleanUI() {
+		UI.DrawClean(1f - (CurrentDirtAmount / TotalDirtAmount));
+	}
+
+	private void DrawSoapUI(Player player) {
+		UI.DrawSoap(player.Soap / player.MaxSoap);
+	}
 }
