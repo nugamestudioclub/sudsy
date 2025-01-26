@@ -1,7 +1,7 @@
 ﻿using Godot;
 using System;
 
-public class UI : Node2D {
+public class UI : Control {
 	private Sprite _soapBar;
 
 	private RichTextLabel _cleanLabel;

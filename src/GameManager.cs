@@ -64,6 +64,6 @@ public class GameManager : Node
                 _currentScene = _mainMenu.Instance();
                 break;
         }
-        GetTree().Root.AddChild(_currentScene);
+        AddChild(_currentScene);
     }
 }

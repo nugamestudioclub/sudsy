@@ -69,7 +69,7 @@ public class PlayScene : Node2D {
 		Player = GetNode<Player>("Player");
 		Soap = GetNode<Soap>("Soap");
 		Camera = GetNode<Camera2D>("Camera2D");
-		UI = GetNode<UI>("UI");
+		UI = GetNode<UI>("Camera2D/UI");
 		SFX = GetNode<SFX>("SFX");
 
 		TimeToLive = TotalTime;
@@ -91,7 +91,6 @@ public class PlayScene : Node2D {
 			if( node is SoapDispenser sd )
 				_soapDispensers.Add(sd);
 
-		_uiOffset = UI.GlobalPosition - Camera.GlobalPosition;
 		DrawSoapUI(Player);
 		DrawCleanUI();
 		UI.DrawTime(TimeToLive);
@@ -119,7 +118,6 @@ public class PlayScene : Node2D {
 
 	private void Enter(Door door) {
 		Camera.GlobalPosition = door.CameraHook.GlobalPosition;
-		UI.GlobalPosition = Camera.GlobalPosition + _uiOffset;
 	}
 
 	private bool IsFalling(Player player) {

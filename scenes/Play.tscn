@@ -94,45 +94,48 @@ volume_db = -20.0
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 0, 128 )
-scale = Vector2( 0.807598, 0.314777 )
+z_index = 2000
 current = true
 
-[node name="UI" type="Node2D" parent="."]
-z_index = 2000
+[node name="UI" type="Control" parent="Camera2D"]
+margin_top = -128.0
+margin_bottom = -128.0
 script = ExtResource( 21 )
 
-[node name="HBoxContainer" type="HBoxContainer" parent="UI"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Camera2D/UI"]
+anchor_right = 1.0
+anchor_bottom = 1.0
 margin_left = -640.0
 margin_top = -224.0
 margin_right = 640.0
 margin_bottom = 496.0
 
-[node name="Soap" type="Control" parent="UI/HBoxContainer"]
+[node name="Soap" type="Control" parent="Camera2D/UI/HBoxContainer"]
 margin_bottom = 720.0
 
-[node name="Sprite" type="Sprite" parent="UI/HBoxContainer/Soap"]
+[node name="Sprite" type="Sprite" parent="Camera2D/UI/HBoxContainer/Soap"]
 position = Vector2( 40, 48 )
 texture = ExtResource( 16 )
 
-[node name="Background" type="Sprite" parent="UI/HBoxContainer/Soap"]
+[node name="Background" type="Sprite" parent="Camera2D/UI/HBoxContainer/Soap"]
 position = Vector2( 192, 48 )
 texture = ExtResource( 18 )
 
-[node name="Fill" type="Sprite" parent="UI/HBoxContainer/Soap"]
+[node name="Fill" type="Sprite" parent="Camera2D/UI/HBoxContainer/Soap"]
 position = Vector2( 68, 24 )
 texture = ExtResource( 17 )
 centered = false
 
-[node name="Clean" type="Control" parent="UI/HBoxContainer"]
+[node name="Clean" type="Control" parent="Camera2D/UI/HBoxContainer"]
 margin_left = 4.0
 margin_right = 4.0
 margin_bottom = 720.0
 
-[node name="Sprite" type="Sprite" parent="UI/HBoxContainer/Clean"]
+[node name="Sprite" type="Sprite" parent="Camera2D/UI/HBoxContainer/Clean"]
 position = Vector2( 372, 48 )
 texture = ExtResource( 19 )
 
-[node name="RichTextLabel" type="RichTextLabel" parent="UI/HBoxContainer/Clean"]
+[node name="RichTextLabel" type="RichTextLabel" parent="Camera2D/UI/HBoxContainer/Clean"]
 margin_left = 412.0
 margin_top = 16.0
 margin_right = 556.0
@@ -141,12 +144,12 @@ custom_colors/default_color = Color( 0.913725, 0.952941, 0.823529, 1 )
 custom_fonts/normal_font = ExtResource( 20 )
 text = "0%"
 
-[node name="Time" type="Control" parent="UI/HBoxContainer"]
+[node name="Time" type="Control" parent="Camera2D/UI/HBoxContainer"]
 margin_left = 8.0
 margin_right = 8.0
 margin_bottom = 720.0
 
-[node name="RichTextLabel" type="RichTextLabel" parent="UI/HBoxContainer/Time"]
+[node name="RichTextLabel" type="RichTextLabel" parent="Camera2D/UI/HBoxContainer/Time"]
 margin_left = 952.0
 margin_top = 16.0
 margin_right = 1256.0
