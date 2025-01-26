@@ -1,0 +1,45 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://assets/fonts/pixel.tres" type="DynamicFont" id=1]
+[ext_resource path="res://assets/sprites/Rooms/Bathroom/Baseboard64x64.png" type="Texture" id=2]
+[ext_resource path="res://assets/sprites/Rooms/Bathroom/Wallpaper64x64.png" type="Texture" id=3]
+[ext_resource path="res://scenes/UI/MainMenuButton.tscn" type="PackedScene" id=4]
+
+[node name="Credits" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Background" type="TextureRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 3 )
+stretch_mode = 2
+
+[node name="Baseboard" type="TextureRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 656.0
+texture = ExtResource( 2 )
+stretch_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+margin_top = 560.0
+margin_right = 1280.0
+margin_bottom = 624.0
+alignment = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+margin_left = 100.0
+margin_top = 36.0
+margin_right = 1180.0
+margin_bottom = 556.0
+custom_colors/default_color = Color( 0.913725, 0.376471, 0.933333, 1 )
+custom_fonts/normal_font = ExtResource( 1 )
+text = "Brendan Brassil - Programming, UI, SFX
+
+Sebastian Kobori - Programming
+
+Joe  Turco - Music, Art, Programming (Particles) 
+"
+
+[node name="MainMenuButton" parent="." instance=ExtResource( 4 )]

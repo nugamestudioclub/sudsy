@@ -1,0 +1,29 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://assets/sprites/ui/Resources/ButtonNormal.stylebox" type="StyleBox" id=1]
+[ext_resource path="res://assets/sprites/ui/Resources/ButtonPressed.stylebox" type="StyleBox" id=2]
+[ext_resource path="res://assets/sprites/ui/ButtonTextSprites1.png" type="Texture" id=3]
+[ext_resource path="res://assets/sprites/ui/ButtonTextBubblesSprites.png" type="Texture" id=4]
+[ext_resource path="res://src/UIButton.cs" type="Script" id=5]
+
+[node name="Play" type="Button"]
+margin_left = 544.0
+margin_top = 560.0
+margin_right = 736.0
+margin_bottom = 624.0
+custom_styles/hover = ExtResource( 1 )
+custom_styles/pressed = ExtResource( 2 )
+custom_styles/normal = ExtResource( 1 )
+icon_align = 1
+script = ExtResource( 5 )
+_scene = "Play"
+
+[node name="Label" type="TextureRect" parent="."]
+margin_right = 192.0
+margin_bottom = 64.0
+texture = ExtResource( 3 )
+
+[node name="Bubbles" type="TextureRect" parent="."]
+margin_right = 192.0
+margin_bottom = 64.0
+texture = ExtResource( 4 )
