@@ -1,6 +1,6 @@
 ﻿using Godot;
 
-public class MyParticle : Sprite {
+public class Particle : Sprite {
 	[Export]
 	public float Lifespan { get; set; }
 

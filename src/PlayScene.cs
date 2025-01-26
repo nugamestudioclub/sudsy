@@ -71,12 +71,12 @@ public class PlayScene : Node2D {
 		}
 		if( IsStartingJump(player) ) {
 			player.Jump(delta);
-			//Soap.Jump(player.Position);
+			Soap.Jump(player.Position);
 		}
 		else if( IsStartingMidairJump(player) ) {
 			player.MidairJump(delta);
 			player.Soap = Math.Max(player.Soap - player.MidairJumpSoapCost, 0);
-			//Soap.MidairJump(player.Position);
+			Soap.MidairJump(player.Position);
 		}
 		else if( !IsJumping(player) ) {
 			_input.Reset(ButtonKind.Jump);

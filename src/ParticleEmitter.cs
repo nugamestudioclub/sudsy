@@ -23,14 +23,15 @@ public class ParticleEmitter : Node2D {
 	[Export]
 	private List<PackedScene> _particles = new List<PackedScene>();
 	
-	public void Spawn(Vector2 position = default, Vector2 velocity = default) {
+	public void Spawn(Vector2 position, Vector2 velocity = default) {
 		if( _particles.Count == 0 )
 			return;
 		for( int i = 0; i < Quantity; i++ ) {
 			int index = GameLogic.Random.Next(_particles.Count);
-			//var particle = (Particle)_particles[index].Instance();
-			//particle.Position = position - Position;
-			//AddChild(particle);
+			var particle = (Particle)_particles[index].Instance();
+			particle.Position = position;
+			particle.SetAsToplevel(true);
+			AddChild(particle);
 		}
 	}
 }
