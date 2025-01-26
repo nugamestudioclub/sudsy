@@ -24,8 +24,10 @@ public class Soap : Node2D {
 		_MidAirJumpEmitter.Spawn(position);
 	}
 
-	public void Move(Vector2 position, Vector2 velocity) {
-		_MoveEmitter.Spawn(position, velocity);
+	public void Move(Vector2 position, Vector2 offset, Vector2 velocity) {
+		float dx = _MoveEmitter.Extents.x - offset.x;
+		float spawnPosX = velocity.x < 0 ? position.x - dx : position.x + dx;
+        _MoveEmitter.Spawn(new Vector2(spawnPosX, position.y), velocity);
 	}
 
 	public void Slide(Vector2 position, Vector2 velocity) {

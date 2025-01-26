@@ -39,7 +39,7 @@ public class Player : RigidBody2D {
 
 	private CollisionShape2D _shortHitbox;
 
-	private ShapeCast2D _feet;
+	public ShapeCast2D Feet { get; private set; }
 
 	private AnimatedSprite _sprite;
 
@@ -74,15 +74,15 @@ public class Player : RigidBody2D {
 	public override void _Ready() {
 		_tallHitbox = GetNode<CollisionShape2D>("TallHitbox");
 		_shortHitbox = GetNode<CollisionShape2D>("ShortHitbox");
-		_feet = GetNode<ShapeCast2D>("Feet");
+		Feet = GetNode<ShapeCast2D>("Feet");
 		_sprite = GetNode<AnimatedSprite>("AnimatedSprite");
 		EnterState(PlayerState.Idle);
 		IsSliding = false;
 	}
 
 	public override void _PhysicsProcess(float delta) {
-		_feet.ForceShapecastUpdate();
-		_areFeetColliding = _feet.IsColliding();
+		Feet.ForceShapecastUpdate();
+		_areFeetColliding = Feet.IsColliding();
 		if( _areFeetColliding )
 			JumpCount = 0;
 	}

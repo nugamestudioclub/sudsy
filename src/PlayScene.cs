@@ -8,7 +8,13 @@ public class PlayScene : Node2D {
 
 	public Soap Soap { get; private set; }
 
-	public override void _Ready() {
+    private float _timeUntilMoveEmission = 0;
+
+    [Export]
+    private float _moveEmissionInterval = 0.15f;
+    [Export]
+    private float _slideEmissionInterval = 0.075f;
+    public override void _Ready() {
 		Player = GetNode<Player>("Player");
 		Soap = GetNode<Soap>("Soap");
 	}
@@ -63,20 +69,38 @@ public class PlayScene : Node2D {
 			_input.Reset(ButtonKind.Interact);
 	}
 
-	private void MovePlayer(Player player, float delta) {
+	
+    private void MovePlayer(Player player, float delta) {
 		float inputX = _input.X;
-		if( !Mathf.IsZeroApprox(inputX) ) {
+        _timeUntilMoveEmission = Math.Max(_timeUntilMoveEmission - delta, 0);
+        if (IsSliding(player))
+        {
+            if (_timeUntilMoveEmission <= 0)
+            {
+                Soap.Slide(player.Feet.GlobalPosition, player.LinearVelocity);
+                _timeUntilMoveEmission = _slideEmissionInterval;
+            }
+        }
+        else if ( !Mathf.IsZeroApprox(inputX) ) {
 			player.MoveX(inputX, delta);
 			player.Face(inputX);
-		}
+			if (player.IsGrounded && _timeUntilMoveEmission <= 0)
+			{
+				float xOffset = player.Feet.Shape is RectangleShape2D rect ? rect.Extents.x : 0;
+
+                Soap.Move(player.Feet.GlobalPosition, new Vector2(xOffset, 0), player.LinearVelocity);
+                _timeUntilMoveEmission = _moveEmissionInterval;
+            }
+        }
+
 		if( IsStartingJump(player) ) {
 			player.Jump(delta);
-			Soap.Jump(player.Position);
+			Soap.Jump(player.Feet.GlobalPosition);
 		}
 		else if( IsStartingMidairJump(player) ) {
 			player.MidairJump(delta);
 			player.Soap = Math.Max(player.Soap - player.MidairJumpSoapCost, 0);
-			Soap.MidairJump(player.Position);
+			Soap.MidairJump(player.Feet.GlobalPosition);
 		}
 		else if( !IsJumping(player) ) {
 			_input.Reset(ButtonKind.Jump);
@@ -101,6 +125,12 @@ public class PlayScene : Node2D {
 		return player.IsGrounded && !Mathf.IsZeroApprox(player.LinearVelocity.x);
 	}
 
+	private bool IsSliding(Player player)
+	{
+		return player.IsGrounded && player.IsSliding;
+
+    }
+
 	private bool IsIdle(Player player) {
 		return player.IsGrounded && Mathf.IsZeroApprox(player.LinearVelocity.x);
 	}
@@ -115,6 +145,7 @@ public class PlayScene : Node2D {
 			&& player.JumpCount < 1
 			&& player.Soap >= player.MidairJumpSoapCost;
 	}
+
 
 	private void ProcessPlayerAnimation(Player player, float delta) {
 		player.PlayAnimation(player.GetDesiredAnimation());

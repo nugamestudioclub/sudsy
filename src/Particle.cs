@@ -8,10 +8,11 @@ public class Particle : Sprite {
 
 	public bool IsAlive => TimeToLive > 0;
 
-	[Export]
 	public Vector2 Velocity { get; set; }
 
 	[Export]
+	public float GravityScale { get; set; } = 1f;
+
 	public float AngularVelocity { get; set; }
 
 	public override void _Ready() {
@@ -19,8 +20,10 @@ public class Particle : Sprite {
 	}
 
 	public override void _PhysicsProcess(float delta) {
-		Rotation += AngularVelocity;
-		Position += Velocity;
+		Rotation += AngularVelocity * delta;
+		Velocity += GravityScale * GameLogic.Gravity;
+        Position += Velocity * delta;
+		
 		TimeToLive -= delta;
 		if( !IsAlive )
 			QueueFree();

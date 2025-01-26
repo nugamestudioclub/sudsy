@@ -1,11 +1,11 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://src/Particle.cs" type="Script" id=1]
-[ext_resource path="res://assets/sprites/Particles/Bubble8x8.png" type="Texture" id=2]
+[ext_resource path="res://assets/sprites/Particles/Bubble7x7.png" type="Texture" id=2]
 
 [node name="Particle" type="Sprite"]
 z_index = 900
 texture = ExtResource( 2 )
 script = ExtResource( 1 )
 Lifespan = 2.0
-GravityScale = 0.25
+GravityScale = 0.2
