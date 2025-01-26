@@ -54,6 +54,8 @@ public class PlayScene : Node2D {
 
 	private List<Door> _doors = new List<Door>();
 
+	private List<SoapDispenser> _soapDispensers = new List<SoapDispenser>();
+
 
 	[Export]
 	private NodePath _startingDoor;
@@ -69,23 +71,30 @@ public class PlayScene : Node2D {
 		Camera = GetNode<Camera2D>("Camera2D");
 		UI = GetNode<UI>("UI");
 		SFX = GetNode<SFX>("SFX");
-		_uiOffset = UI.GlobalPosition - Camera.GlobalPosition;
+
+		TimeToLive = TotalTime;
+
 		foreach( var node in GetTree().GetNodesInGroup("Dirt") )
 			if( node is Dirt dirt ) {
 				TotalDirtAmount += dirt.Amount;
 				_dirts.Add(dirt);
 			}
 		CurrentDirtAmount = TotalDirtAmount;
-		DrawSoapUI(Player);
-		DrawCleanUI();
+
 		GD.Print($"Starting Dirt {TotalDirtAmount}");
 		foreach( var node in GetTree().GetNodesInGroup("Door") )
 			if( node is Door door )
 				_doors.Add(door);
 		Enter(GetNode<Door>(_startingDoor));
-		TimeToLive = TotalTime;
-		UI.DrawTime(TimeToLive);
 
+		foreach( var node in GetTree().GetNodesInGroup("SoapDispenser") )
+			if( node is SoapDispenser sd )
+				_soapDispensers.Add(sd);
+
+		_uiOffset = UI.GlobalPosition - Camera.GlobalPosition;
+		DrawSoapUI(Player);
+		DrawCleanUI();
+		UI.DrawTime(TimeToLive);
 	}
 
 
@@ -324,6 +333,17 @@ public class PlayScene : Node2D {
 			RegenerateSoap(player);
 		}
 
+		float currentSoap = player.Soap;
+		float maxSoap = player.MaxSoap;
+		if( currentSoap < maxSoap ) {
+			foreach( var sd in _soapDispensers ) {
+				if( sd.OverlapsBody(Player) ) {
+					player.Soap = player.MaxSoap;
+					DrawSoapUI(player);
+					SFX.Play("CollectSoap");
+				}
+			}
+		}
 	}
 
 	private void ProcessPlayerAnimation(Player player, float delta) {

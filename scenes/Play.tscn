@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=2]
+[gd_scene load_steps=42 format=2]
 
 [ext_resource path="res://scenes/Soap8.tscn" type="PackedScene" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
@@ -33,6 +33,7 @@
 [ext_resource path="res://scenes/Ramp2x3.tscn" type="PackedScene" id=31]
 [ext_resource path="res://scenes/Block.tscn" type="PackedScene" id=32]
 [ext_resource path="res://scenes/Ramp2x1.tscn" type="PackedScene" id=33]
+[ext_resource path="res://scenes/SoapDispenser.tscn" type="PackedScene" id=34]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 800, 4 )
@@ -318,5 +319,8 @@ position = Vector2( 512, 120 )
 
 [node name="Ramp2x3" parent="." instance=ExtResource( 31 )]
 position = Vector2( 1088, 56 )
+
+[node name="SoapDispenser" parent="." instance=ExtResource( 34 )]
+position = Vector2( 720, 120 )
 
 [connection signal="animation_finished" from="Player/AnimatedSprite" to="Player" method="AnimatedSprite_AnimationFinished"]
