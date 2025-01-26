@@ -28,9 +28,9 @@ public class ParticleEmitter : Node2D {
 			return;
 		for( int i = 0; i < Quantity; i++ ) {
 			int index = GameLogic.Random.Next(_particles.Count);
-			var particle = (Particle)_particles[index].Instance();
-			particle.Position = position - Position;
-			AddChild(particle);
+			//var particle = (Particle)_particles[index].Instance();
+			//particle.Position = position - Position;
+			//AddChild(particle);
 		}
 	}
 }

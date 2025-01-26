@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Awe_of_Clean_ROUGH.mp3-51c0ce843cf585020abe09ee8483f3fe.mp3str"
+
+[deps]
+
+source_file="res://assets/music/Awe_of_Clean_ROUGH.mp3"
+dest_files=[ "res://.import/Awe_of_Clean_ROUGH.mp3-51c0ce843cf585020abe09ee8483f3fe.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0
