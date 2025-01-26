@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/veryclean_RAW.mp3-9a62cdd45c06d671922b9a1ea6470991.mp3str"
+
+[deps]
+
+source_file="res://assets/music/veryclean_RAW.mp3"
+dest_files=[ "res://.import/veryclean_RAW.mp3-9a62cdd45c06d671922b9a1ea6470991.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

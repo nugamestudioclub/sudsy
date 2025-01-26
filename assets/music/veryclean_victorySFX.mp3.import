@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/veryclean_victorySFX.mp3-74e003a1d673b7b786f2dc1134347783.mp3str"
+
+[deps]
+
+source_file="res://assets/music/veryclean_victorySFX.mp3"
+dest_files=[ "res://.import/veryclean_victorySFX.mp3-74e003a1d673b7b786f2dc1134347783.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0
