@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/collect-soap.mp3-273f0c4c2650c51be4efc6db2f4d1312.mp3str"
+
+[deps]
+
+source_file="res://assets/sfx/collect-soap.mp3"
+dest_files=[ "res://.import/collect-soap.mp3-273f0c4c2650c51be4efc6db2f4d1312.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

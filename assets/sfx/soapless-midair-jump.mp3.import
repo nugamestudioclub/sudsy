@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/soapless-midair-jump.mp3-8fa4145addc7f283a6828938a4a7eb18.mp3str"
+
+[deps]
+
+source_file="res://assets/sfx/soapless-midair-jump.mp3"
+dest_files=[ "res://.import/soapless-midair-jump.mp3-8fa4145addc7f283a6828938a4a7eb18.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

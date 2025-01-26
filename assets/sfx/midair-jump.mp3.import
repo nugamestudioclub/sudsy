@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/midair-jump.mp3-cac48204b6c46d0bbc1b4ae4ccfc330a.mp3str"
+
+[deps]
+
+source_file="res://assets/sfx/midair-jump.mp3"
+dest_files=[ "res://.import/midair-jump.mp3-cac48204b6c46d0bbc1b4ae4ccfc330a.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0
