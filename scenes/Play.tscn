@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=2]
+[gd_scene load_steps=45 format=2]
 
 [ext_resource path="res://scenes/Soap8.tscn" type="PackedScene" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
@@ -34,13 +34,11 @@
 [ext_resource path="res://scenes/Picture.tscn" type="PackedScene" id=32]
 [ext_resource path="res://scenes/Ramp2x1.tscn" type="PackedScene" id=33]
 [ext_resource path="res://scenes/SoapDispenser.tscn" type="PackedScene" id=34]
+[ext_resource path="res://assets/sprites/Rooms/Bathroom/Baseboard64x64.png" type="Texture" id=35]
 [ext_resource path="res://scenes/Box1x1.tscn" type="PackedScene" id=36]
-
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 800, 4 )
-
-[sub_resource type="RectangleShape2D" id=8]
-extents = Vector2( 32, 32 )
+[ext_resource path="res://assets/sprites/Rooms/Bathroom/Wallpaper64x64.png" type="Texture" id=37]
+[ext_resource path="res://scenes/Bathtub.tscn" type="PackedScene" id=38]
+[ext_resource path="res://scenes/TowelRack.tscn" type="PackedScene" id=39]
 
 [sub_resource type="RectangleShape2D" id=13]
 extents = Vector2( 32, 32 )
@@ -160,29 +158,6 @@ custom_fonts/normal_font = ExtResource( 20 )
 bbcode_enabled = true
 bbcode_text = "[right]00:00[/right]"
 text = "00:00"
-
-[node name="Floor" type="StaticBody2D" parent="."]
-position = Vector2( 0, 156 )
-collision_mask = 0
-
-[node name="Sprite" type="Sprite" parent="Floor"]
-scale = Vector2( 100, 0.125 )
-texture = ExtResource( 2 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
-scale = Vector2( 100, 1 )
-shape = SubResource( 1 )
-
-[node name="Wall" type="StaticBody2D" parent="."]
-position = Vector2( 206, -7 )
-scale = Vector2( 1, 5 )
-collision_mask = 0
-
-[node name="Sprite" type="Sprite" parent="Wall"]
-texture = ExtResource( 2 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall"]
-shape = SubResource( 8 )
 
 [node name="Door1" type="Area2D" parent="." groups=["Door"]]
 position = Vector2( -448, 104 )
@@ -329,5 +304,33 @@ position = Vector2( -224, 104 )
 
 [node name="Picture" parent="." instance=ExtResource( 32 )]
 position = Vector2( -400, 8 )
+
+[node name="Bathroom" type="Node2D" parent="."]
+
+[node name="Background" type="Node2D" parent="Bathroom"]
+
+[node name="Wallpaper" type="Sprite" parent="Bathroom/Background"]
+position = Vector2( 0, 96 )
+texture = ExtResource( 37 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 2000, 720 )
+
+[node name="Baseboard" type="Sprite" parent="Bathroom/Background"]
+position = Vector2( 0, 488 )
+texture = ExtResource( 35 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 2000, 64 )
+
+[node name="Obstacles" type="Node2D" parent="Bathroom"]
+z_index = 500
+
+[node name="Bathtub" parent="Bathroom/Obstacles" instance=ExtResource( 38 )]
+position = Vector2( 152, 360 )
+
+[node name="TowelRack" parent="Bathroom/Obstacles" instance=ExtResource( 39 )]
+position = Vector2( -264, 216 )
+
+[node name="Interactables" type="Node2D" parent="Bathroom"]
+z_index = 900
 
 [connection signal="animation_finished" from="Player/AnimatedSprite" to="Player" method="AnimatedSprite_AnimationFinished"]
