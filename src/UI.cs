@@ -11,7 +11,7 @@ public class UI : Node2D {
 	}
 
 	public void DrawClean(float value) {
-		_cleanLabel.Text = $"{(int)(value * 100)}%";
+		_cleanLabel.Text = $"{(int)Mathf.Ceil(value * 100)}%";
 	}
 
 	public void DrawSoap(float value) {
