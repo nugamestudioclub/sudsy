@@ -14,7 +14,6 @@ public class PlayScene : Node2D {
     private float _moveEmissionInterval = 0.15f;
     [Export]
     private float _slideEmissionInterval = 0.075f;
-    public override void _Ready() {
 	public Camera2D Camera { get; private set; }
 
 	[Export]
@@ -53,7 +52,7 @@ public class PlayScene : Node2D {
 			);
 	}
 
-	private bool IsJumping(Player player) {
+    private bool IsJumping(Player player) {
 		return !player.IsGrounded
 			&& _input.Get(ButtonKind.Jump)
 			&& player.TimeInState <= player.JumpDuration && player.LinearVelocity.y < 0;
@@ -62,7 +61,13 @@ public class PlayScene : Node2D {
 		return player.IsGrounded && !Mathf.IsZeroApprox(player.LinearVelocity.x);
 	}
 
-	private bool IsIdle(Player player) {
+    private bool IsSliding(Player player)
+    {
+        return player.IsGrounded && player.IsSliding;
+
+    }
+
+    private bool IsIdle(Player player) {
 		return player.IsGrounded && Mathf.IsZeroApprox(player.LinearVelocity.x);
 	}
 
@@ -75,26 +80,6 @@ public class PlayScene : Node2D {
 			&& !player.IsGrounded
 			&& player.JumpCount < 1
 			&& player.Soap >= player.MidairJumpSoapCost;
-	}
-
-	private void MovePlayer(Player player, float delta) {
-		float inputX = _input.X;
-		if( !Mathf.IsZeroApprox(inputX) ) {
-			player.MoveX(inputX, delta);
-			player.Face(inputX);
-		}
-		if( IsStartingJump(player) ) {
-			player.Jump(delta);
-			Soap.Jump(player.Position);
-		}
-		else if( IsStartingMidairJump(player) ) {
-			player.MidairJump(delta);
-			player.Soap = Math.Max(player.Soap - player.MidairJumpSoapCost, 0);
-			Soap.MidairJump(player.Position);
-		}
-		else if( !IsJumping(player) ) {
-			_input.Reset(ButtonKind.Jump);
-		}
 	}
 
 	private void ProcessDoorInteraction(Player player, Door door, float delta) {
@@ -187,46 +172,6 @@ public class PlayScene : Node2D {
 			_input.Reset(ButtonKind.Jump);
 		}
 	}
-
-	private bool IsFalling(Player player) {
-		return !player.IsGrounded
-			&& (
-				!_input.Get(ButtonKind.Jump)
-				|| player.TimeInState > player.JumpDuration
-				|| player.LinearVelocity.y > 0
-			);
-	}
-
-	private bool IsJumping(Player player) {
-		return !player.IsGrounded
-			&& _input.Get(ButtonKind.Jump)
-			&& player.TimeInState <= player.JumpDuration && player.LinearVelocity.y < 0;
-	}
-	private bool IsMoving(Player player) {
-		return player.IsGrounded && !Mathf.IsZeroApprox(player.LinearVelocity.x);
-	}
-
-	private bool IsSliding(Player player)
-	{
-		return player.IsGrounded && player.IsSliding;
-
-    }
-
-	private bool IsIdle(Player player) {
-		return player.IsGrounded && Mathf.IsZeroApprox(player.LinearVelocity.x);
-	}
-
-	private bool IsStartingJump(Player player) {
-		return Input.IsActionJustPressed("jump") && player.IsGrounded && player.JumpCount == 0;
-	}
-
-	private bool IsStartingMidairJump(Player player) {
-		return Input.IsActionJustPressed("jump")
-			&& !player.IsGrounded
-			&& player.JumpCount < 1
-			&& player.Soap >= player.MidairJumpSoapCost;
-	}
-
 
 	private void ProcessPlayerAnimation(Player player, float delta) {
 		player.PlayAnimation(player.GetDesiredAnimation());
