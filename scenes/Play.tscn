@@ -38,6 +38,7 @@ extents = Vector2( 10, 2 )
 
 [node name="Play" type="Node2D"]
 script = ExtResource( 4 )
+_startingDoor = NodePath("Door1")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 0, 134 )
@@ -107,6 +108,9 @@ texture = ExtResource( 2 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Door1"]
 shape = SubResource( 13 )
 
+[node name="CameraHook" type="Node2D" parent="Door1"]
+position = Vector2( 192, 37.3333 )
+
 [node name="Door2" type="Area2D" parent="." groups=["Door"]]
 position = Vector2( 352, 104 )
 scale = Vector2( 1, 1.5 )
@@ -119,6 +123,9 @@ texture = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Door2"]
 shape = SubResource( 13 )
+
+[node name="CameraHook" type="Node2D" parent="Door2"]
+position = Vector2( 224, 37.3333 )
 
 [node name="Soap" type="Node2D" parent="."]
 script = ExtResource( 9 )
