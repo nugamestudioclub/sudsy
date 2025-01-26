@@ -117,7 +117,7 @@ public class PlayScene : Node2D {
 	}
 
 	private void Enter(Door door) {
-		Camera.GlobalPosition = door.CameraHook.GlobalPosition;
+		//Camera.GlobalPosition = door.CameraHook.GlobalPosition;
 	}
 
 	private bool IsFalling(Player player) {
