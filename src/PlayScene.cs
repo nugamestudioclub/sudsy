@@ -6,8 +6,11 @@ public class PlayScene : Node2D {
 
 	public Player Player { get; private set; }
 
+	public Soap Soap { get; private set; }
+
 	public override void _Ready() {
 		Player = GetNode<Player>("Player");
+		Soap = GetNode<Soap>("Soap");
 	}
 
 	public override void _PhysicsProcess(float delta) {
@@ -68,10 +71,12 @@ public class PlayScene : Node2D {
 		}
 		if( IsStartingJump(player) ) {
 			player.Jump(delta);
+			//Soap.Jump(player.Position);
 		}
 		else if( IsStartingMidairJump(player) ) {
-			player.MidAirJump(delta);
+			player.MidairJump(delta);
 			player.Soap = Math.Max(player.Soap - player.MidairJumpSoapCost, 0);
+			//Soap.MidairJump(player.Position);
 		}
 		else if( !IsJumping(player) ) {
 			_input.Reset(ButtonKind.Jump);
@@ -153,4 +158,5 @@ public class PlayScene : Node2D {
 			}
 		}
 	}
+
 }

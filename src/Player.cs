@@ -122,7 +122,7 @@ public class Player : RigidBody2D {
 		IsSliding = false;
 	}
 
-	public void MidAirJump(float delta) {
+	public void MidairJump(float delta) {
 		_isJumpingInMidAir = true;
 		EnterState(PlayerState.Jumping);
 		LinearVelocity = new Vector2(LinearVelocity.x, 0);
