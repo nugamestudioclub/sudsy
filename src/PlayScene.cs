@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public class PlayScene : Node2D {
 	private readonly InputFrame _input = new InputFrame();
@@ -14,27 +15,76 @@ public class PlayScene : Node2D {
     private float _moveEmissionInterval = 0.15f;
     [Export]
     private float _slideEmissionInterval = 0.075f;
-	public Camera2D Camera { get; private set; }
+
+    
+    public Camera2D Camera { get; private set; }
+
+
+    [Export]
+    private float _minCleanSpeed = 5f;
 
 	[Export]
-	private NodePath _startingDoor;
+	public float BaseCleanRate { get; private set; } = .05f;
 
-	public override void _Ready() {
+    [Export]
+    private float _moveCleanMod = .5f;
+
+    public float MoveCleanRate => BaseCleanRate * _moveCleanMod;
+
+    [Export]
+	private float _slideCleanMod = 1;
+
+	public float SlideCleanRate => BaseCleanRate * _slideCleanMod;
+
+	[Export]
+    private float _midairJumpCleanMod = 100;
+
+    public float MidairJumpCleanRate => BaseCleanRate * _midairJumpCleanMod;
+
+
+    private List<Dirt> _dirts = new List<Dirt>();
+
+	public float TotalDirtAmount { get; private set; }
+	public float CurrentDirtAmount { get; private set; }
+
+    private List<Door> _doors = new List<Door>();
+
+
+    [Export]
+    private NodePath _startingDoor;
+
+
+    public override void _Ready() {
 		Player = GetNode<Player>("Player");
 		Soap = GetNode<Soap>("Soap");
 		Camera = GetNode<Camera2D>("Camera2D");
-		Enter(GetNode<Door>(_startingDoor));
-	}
+        foreach (var node in GetTree().GetNodesInGroup("Dirt"))
+            if (node is Dirt dirt)
+			{
+				TotalDirtAmount += dirt.Amount;
+                _dirts.Add(dirt);
+            }    
+		CurrentDirtAmount = TotalDirtAmount;
+        GD.Print($"Starting Dirt {TotalDirtAmount}");
+        foreach (var node in GetTree().GetNodesInGroup("Door"))
+            if (node is Door door)
+                _doors.Add(door);
+        Enter(GetNode<Door>(_startingDoor));
+        
+    }
+	
 
 	public override void _PhysicsProcess(float delta) {
 		ProcessPlayerState(Player, delta);
 		ProcessPlayerAnimation(Player, delta);
-		MovePlayer(Player, delta);
-		ProcessSoap(Player, delta);
+        foreach (var dirt in _dirts)
+            ProcessDirtInteraction(Player, dirt, delta);
 
-        foreach ( var node in GetTree().GetNodesInGroup("Door") )
-			if( node is Door door )
-				ProcessDoorInteraction(Player, door, delta);
+        MovePlayer(Player, delta);
+		ProcessSoap(Player, delta);
+        
+        foreach ( var door in _doors )
+			ProcessDoorInteraction(Player, door, delta);
 	}
 
 	public override void _Process(float delta) {
@@ -98,6 +148,28 @@ public class PlayScene : Node2D {
 				Enter(destinationDoor);
 			}
 		}
+	}
+
+	private void ProcessClean(Dirt dirt, float amount)
+	{
+		float start = dirt.Amount;
+        dirt.Amount = Math.Max(0, dirt.Amount - amount);
+        CurrentDirtAmount -= start - dirt.Amount;
+    }
+
+	private void ProcessDirtInteraction(Player player, Dirt dirt, float delta)
+	{
+		if (!dirt.OverlapsArea(player.Brush)) return;
+		if (player.IsJumpingInMidair)
+		{
+			ProcessClean(dirt, MidairJumpCleanRate);
+		}
+		else if (player.IsGrounded && Math.Abs(Player.LinearVelocity.x) >= _minCleanSpeed)
+		{
+			ProcessClean(dirt, IsSliding(player) ? SlideCleanRate : MoveCleanRate);
+        }
+		
+		
 	}
 
 	private void ProcessInput(float delta) {

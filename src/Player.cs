@@ -50,13 +50,15 @@ public class Player : RigidBody2D {
 
 	public ShapeCast2D Feet { get; private set; }
 
-	private AnimatedSprite _sprite;
+	public Area2D Brush { get; private set; }
+
+    private AnimatedSprite _sprite;
 
 	private bool _areFeetColliding;
 
 	private bool _isSliding;
 
-	private bool _isJumpingInMidAir;
+	public bool IsJumpingInMidair { get; private set; }
 
 	public bool IsGrounded => _areFeetColliding;
 	public bool IsSliding {
@@ -84,7 +86,8 @@ public class Player : RigidBody2D {
 		_tallHitbox = GetNode<CollisionShape2D>("TallHitbox");
 		_shortHitbox = GetNode<CollisionShape2D>("ShortHitbox");
 		Feet = GetNode<ShapeCast2D>("Feet");
-		_sprite = GetNode<AnimatedSprite>("AnimatedSprite");
+        Brush = GetNode<Area2D>("Brush");
+        _sprite = GetNode<AnimatedSprite>("AnimatedSprite");
 		EnterState(PlayerState.Idle);
 		IsSliding = false;
 	}
@@ -104,7 +107,7 @@ public class Player : RigidBody2D {
 
 	public void UpdateState(float delta) {
 		TimeInState += delta;
-		_isJumpingInMidAir = false;		
+		IsJumpingInMidair = false;		
 	}
 
 	public void Face(float value) {
@@ -118,7 +121,7 @@ public class Player : RigidBody2D {
 			return IsSliding ? "slide" : "idle";
 		case PlayerState.Freefall:
 		case PlayerState.Jumping:
-			return _isJumpingInMidAir ? "idle-jump" : "jump";
+			return IsJumpingInMidair ? "idle-jump" : "jump";
 		default:
 			return "idle";
 		}
@@ -132,7 +135,7 @@ public class Player : RigidBody2D {
 	}
 
 	public void MidairJump(float delta) {
-		_isJumpingInMidAir = true;
+		IsJumpingInMidair = true;
 		EnterState(PlayerState.Jumping);
 		LinearVelocity = new Vector2(LinearVelocity.x, 0);
 		Jump(delta);
