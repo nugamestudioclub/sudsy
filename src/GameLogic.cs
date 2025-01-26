@@ -5,6 +5,30 @@ public static class GameLogic {
 
 	public static readonly Vector2 Gravity = (Vector2)ProjectSettings.GetSetting("physics/2d/default_gravity_vector");
     public static readonly Random Random = new Random();
+
+    public static string GetLetterGrade(float percentClean, float timeRemaining, float totalTime)
+    {
+        if (percentClean < .50) return "F";
+        if (percentClean < .55) return "D-";
+        if (percentClean < .60) return "D";
+        if (percentClean < .65) return "D+";
+        if (percentClean < .70) return "C-";
+        if (percentClean < .75) return "C";
+        if (percentClean < .80) return "C+";
+        if (percentClean < .85) return "B-";
+        if (percentClean < .90) return "B";
+        if (percentClean < .95) return "B+";
+        if (percentClean < .9999) return "A-";
+        float remainingTimeRatio = timeRemaining / totalTime;
+        if (remainingTimeRatio < .1) return "A";
+        if (remainingTimeRatio < .2) return "A+";
+        if (remainingTimeRatio < .3) return "S-";
+        if (remainingTimeRatio < .35) return "S";
+        if (remainingTimeRatio < .40) return "S+";
+        if (remainingTimeRatio < .45) return "S++";
+        return "Z";
+
+    }
 }
 
 public static class Extensions
