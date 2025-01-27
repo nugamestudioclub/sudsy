@@ -15,7 +15,7 @@ public class UI : Control {
 	}
 
 	public void DrawClean(float value) {
-		_cleanLabel.Text = $"{Mathf.RoundToInt(Mathf.Clamp(value, 0f, 1f) * 100)}%";
+		_cleanLabel.Text = $"{(int)(value * 100)}%";
 	}
 
 	public void DrawSoap(float value) {
