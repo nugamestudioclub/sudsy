@@ -375,6 +375,9 @@ position = Vector2( 344, -88 )
 [node name="Interactables" type="Node2D" parent="Bathroom"]
 z_index = 900
 
+[node name="Dirt17" parent="Bathroom/Interactables" instance=ExtResource( 15 )]
+scale = Vector2( 5, 5 )
+
 [node name="SoapDispenser" parent="Bathroom/Interactables" instance=ExtResource( 34 )]
 position = Vector2( 512, 160 )
 
