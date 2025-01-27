@@ -74,7 +74,7 @@ extents = Vector2( 16, 360 )
 
 [node name="Play" type="Node2D"]
 script = ExtResource( 4 )
-TotalTime = 180.0
+TotalTime = 150.0
 _startingDoor = NodePath("Door1")
 
 [node name="Music" parent="." instance=ExtResource( 22 )]
@@ -239,6 +239,7 @@ Quantity = 3
 _particles = [ ExtResource( 11 ), ExtResource( 10 ), ExtResource( 13 ), ExtResource( 14 ), ExtResource( 12 ), ExtResource( 1 ) ]
 
 [node name="Player" type="RigidBody2D" parent="."]
+position = Vector2( 0, 176 )
 z_index = 1000
 collision_layer = 2
 mode = 2
@@ -288,15 +289,6 @@ shape = SubResource( 7 )
 target_position = Vector2( 0, 0 )
 max_results = 1
 
-[node name="Dirt" parent="." instance=ExtResource( 15 )]
-position = Vector2( -350, 132 )
-
-[node name="Dirt2" parent="." instance=ExtResource( 15 )]
-position = Vector2( -239, -20 )
-
-[node name="Dirt3" parent="." instance=ExtResource( 15 )]
-position = Vector2( -143, 184 )
-
 [node name="Bathroom" type="Node2D" parent="."]
 
 [node name="Background" type="Node2D" parent="Bathroom"]
@@ -326,7 +318,7 @@ z_index = 500
 position = Vector2( -744, 424 )
 
 [node name="Bathtub" parent="Bathroom/Obstacles" instance=ExtResource( 38 )]
-position = Vector2( 152, 328 )
+position = Vector2( 168, 328 )
 
 [node name="TowelRack" parent="Bathroom/Obstacles" instance=ExtResource( 39 )]
 position = Vector2( -216, 216 )
@@ -335,14 +327,17 @@ position = Vector2( -216, 216 )
 position = Vector2( -544, 166 )
 
 [node name="Ramp2x3" parent="Bathroom/Obstacles" instance=ExtResource( 31 )]
-position = Vector2( -136, 360 )
+position = Vector2( -120, 360 )
 
 [node name="Ramp1x1" parent="Bathroom/Obstacles" instance=ExtResource( 30 )]
-position = Vector2( -456, 424 )
+position = Vector2( -608, 56 )
 scale = Vector2( -1, 1 )
 
 [node name="Ramp2x1" parent="Bathroom/Obstacles" instance=ExtResource( 33 )]
-position = Vector2( -456, 288 )
+position = Vector2( -400, 248 )
+
+[node name="Ramp2x2" parent="Bathroom/Obstacles" instance=ExtResource( 33 )]
+position = Vector2( -464, 8 )
 
 [node name="Box1x2" parent="Bathroom/Obstacles" instance=ExtResource( 36 )]
 position = Vector2( 608, 424 )
@@ -369,13 +364,110 @@ position = Vector2( 488, 72 )
 position = Vector2( 488, 200 )
 
 [node name="Shelf2" parent="Bathroom/Obstacles" instance=ExtResource( 42 )]
-position = Vector2( -568, 336 )
+position = Vector2( -568, 352 )
+
+[node name="Shelf4" parent="Bathroom/Obstacles" instance=ExtResource( 42 )]
+position = Vector2( -256, -48 )
 
 [node name="Interactables" type="Node2D" parent="Bathroom"]
 z_index = 900
 
 [node name="SoapDispenser" parent="Bathroom/Interactables" instance=ExtResource( 34 )]
 position = Vector2( 512, 160 )
+
+[node name="Dirt" parent="Bathroom/Interactables" instance=ExtResource( 15 )]
+position = Vector2( -608, 472 )
+scale = Vector2( 1, 0.5 )
+
+[node name="Dirt2" parent="Bathroom/Interactables" instance=ExtResource( 15 )]
+position = Vector2( -544, 472 )
+scale = Vector2( 1, 0.5 )
+
+[node name="Dirt3" parent="Bathroom/Interactables" instance=ExtResource( 15 )]
+position = Vector2( -480, 472 )
+scale = Vector2( 1, 0.5 )
+
+[node name="Dirt4" parent="Bathroom/Interactables" instance=ExtResource( 15 )]
+position = Vector2( -416, 472 )
+scale = Vector2( 1, 0.5 )
+
+[node name="Dirt5" parent="Bathroom/Interactables" instance=ExtResource( 15 )]
+position = Vector2( -352, 472 )
+scale = Vector2( 1, 0.5 )
+
+[node name="Dirt6" parent="Bathroom/Interactables" instance=ExtResource( 15 )]
+position = Vector2( -288, 472 )
+scale = Vector2( 1, 0.5 )
+
+[node name="Dirt7" parent="Bathroom/Interactables" instance=ExtResource( 15 )]
+position = Vector2( -224, 472 )
+scale = Vector2( 1, 0.5 )
+
+[node name="Dirt8" parent="Bathroom/Interactables" instance=ExtResource( 15 )]
+position = Vector2( 480, 400 )
+scale = Vector2( 1, 0.25 )
+_startingAmount = 2.0
+
+[node name="Dirt11" parent="Bathroom/Interactables" instance=ExtResource( 15 )]
+position = Vector2( -600, 344 )
+scale = Vector2( 1, 0.25 )
+_startingAmount = 3.0
+
+[node name="Dirt12" parent="Bathroom/Interactables" instance=ExtResource( 15 )]
+position = Vector2( -536, 344 )
+scale = Vector2( 1, 0.25 )
+_startingAmount = 3.0
+
+[node name="Dirt9" parent="Bathroom/Interactables" instance=ExtResource( 15 )]
+position = Vector2( 544, 336 )
+scale = Vector2( 1, 0.25 )
+_startingAmount = 2.0
+
+[node name="Dirt10" parent="Bathroom/Interactables" instance=ExtResource( 15 )]
+position = Vector2( 608, 272 )
+scale = Vector2( 1, 0.25 )
+_startingAmount = 2.0
+
+[node name="Dirt14" parent="Bathroom/Interactables" instance=ExtResource( 15 )]
+position = Vector2( 432, 32 )
+scale = Vector2( 0.75, 0.25 )
+_startingAmount = 1.0
+
+[node name="Dirt15" parent="Bathroom/Interactables" instance=ExtResource( 15 )]
+position = Vector2( 488, 32 )
+scale = Vector2( 1, 0.25 )
+_startingAmount = 1.0
+
+[node name="Dirt16" parent="Bathroom/Interactables" instance=ExtResource( 15 )]
+position = Vector2( 544, 32 )
+scale = Vector2( 0.75, 0.25 )
+_startingAmount = 1.0
+
+[node name="Dirt17" parent="Bathroom/Interactables" instance=ExtResource( 15 )]
+position = Vector2( 352, -96 )
+_startingAmount = 5.0
+
+[node name="Dirt18" parent="Bathroom/Interactables" instance=ExtResource( 15 )]
+position = Vector2( 112, 400 )
+scale = Vector2( 1, 0.25 )
+
+[node name="Dirt21" parent="Bathroom/Interactables" instance=ExtResource( 15 )]
+position = Vector2( -576, 152 )
+scale = Vector2( 1, 0.125 )
+_startingAmount = 7.0
+
+[node name="Dirt22" parent="Bathroom/Interactables" instance=ExtResource( 15 )]
+position = Vector2( -512, 152 )
+scale = Vector2( 1, 0.111 )
+_startingAmount = 7.0
+
+[node name="Dirt19" parent="Bathroom/Interactables" instance=ExtResource( 15 )]
+position = Vector2( 176, 408 )
+scale = Vector2( 1, 0.25 )
+
+[node name="Dirt20" parent="Bathroom/Interactables" instance=ExtResource( 15 )]
+position = Vector2( 240, 400 )
+scale = Vector2( 1, 0.25 )
 
 [node name="Bounds" type="StaticBody2D" parent="Bathroom"]
 

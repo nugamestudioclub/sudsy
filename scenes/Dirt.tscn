@@ -1,19 +1,10 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://assets/sprites/Rooms/Bathroom/1x1Box.png" type="Texture" id=1]
+[ext_resource path="res://assets/sprites/Shader/dirt.png" type="Texture" id=1]
 [ext_resource path="res://src/Dirt.cs" type="Script" id=2]
-[ext_resource path="res://assets/sprites/Shader/dirt_shader.shader" type="Shader" id=3]
-[ext_resource path="res://assets/sprites/Shader/Shader.png" type="Texture" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 32, 32 )
-
-[sub_resource type="ShaderMaterial" id=2]
-render_priority = 127
-shader = ExtResource( 3 )
-shader_param/opacity = 0.0
-shader_param/global_transform = null
-shader_param/image = ExtResource( 4 )
 
 [node name="Dirt" type="Area2D" groups=["Dirt"]]
 collision_layer = 8
@@ -24,6 +15,5 @@ script = ExtResource( 2 )
 shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
-material = SubResource( 2 )
 z_index = 100
 texture = ExtResource( 1 )
