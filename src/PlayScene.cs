@@ -110,6 +110,10 @@ public class PlayScene : Node2D {
 			ProcessDoorInteraction(Player, door, delta);
 		TimeToLive = Mathf.Max(TimeToLive - delta, 0);
 		UI.DrawTime(TimeToLive);
+
+		if( Mathf.IsZeroApprox(TimeToLive) || Mathf.IsZeroApprox(TotalDirtAmount) ) {
+			GameManager.Instance.ChangeScene("Credits");
+		}
 	}
 
 	public override void _Process(float delta) {
