@@ -369,6 +369,9 @@ position = Vector2( -568, 352 )
 [node name="Shelf4" parent="Bathroom/Obstacles" instance=ExtResource( 42 )]
 position = Vector2( -256, -48 )
 
+[node name="Shelf5" parent="Bathroom/Obstacles" instance=ExtResource( 42 )]
+position = Vector2( 344, -88 )
+
 [node name="Interactables" type="Node2D" parent="Bathroom"]
 z_index = 900
 
@@ -413,6 +416,16 @@ position = Vector2( -600, 344 )
 scale = Vector2( 1, 0.25 )
 _startingAmount = 3.0
 
+[node name="Dirt13" parent="Bathroom/Interactables" instance=ExtResource( 15 )]
+position = Vector2( -288, -56 )
+scale = Vector2( 1, 0.25 )
+_startingAmount = 3.0
+
+[node name="Dirt23" parent="Bathroom/Interactables" instance=ExtResource( 15 )]
+position = Vector2( -224, -56 )
+scale = Vector2( 1, 0.25 )
+_startingAmount = 3.0
+
 [node name="Dirt12" parent="Bathroom/Interactables" instance=ExtResource( 15 )]
 position = Vector2( -536, 344 )
 scale = Vector2( 1, 0.25 )
@@ -443,8 +456,14 @@ position = Vector2( 544, 32 )
 scale = Vector2( 0.75, 0.25 )
 _startingAmount = 1.0
 
-[node name="Dirt17" parent="Bathroom/Interactables" instance=ExtResource( 15 )]
-position = Vector2( 352, -96 )
+[node name="Dirt24" parent="Bathroom/Interactables" instance=ExtResource( 15 )]
+position = Vector2( 376, -96 )
+scale = Vector2( 1, 0.25 )
+_startingAmount = 5.0
+
+[node name="Dirt25" parent="Bathroom/Interactables" instance=ExtResource( 15 )]
+position = Vector2( 312, -96 )
+scale = Vector2( 1, 0.25 )
 _startingAmount = 5.0
 
 [node name="Dirt18" parent="Bathroom/Interactables" instance=ExtResource( 15 )]
