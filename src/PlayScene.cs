@@ -111,7 +111,7 @@ public class PlayScene : Node2D {
 		TimeToLive = Mathf.Max(TimeToLive - delta, 0);
 		UI.DrawTime(TimeToLive);
 
-		if( Mathf.IsZeroApprox(TimeToLive) || Mathf.IsZeroApprox(TotalDirtAmount) ) {
+		if( TimeToLive <= 0f || CurrentDirtAmount <= 0.1f ) {
 			GameManager.Instance.ChangeScene("Credits");
 		}
 	}
